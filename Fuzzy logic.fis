@@ -1,0 +1,57 @@
+[System]
+Name='Fuzzy logic'
+Type='mamdani'
+Version=2.0
+NumInputs=4
+NumOutputs=1
+NumRules=3
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='TIME'
+Range=[0 24]
+NumMFs=3
+MF1='Morning':'trimf',[0 6 12]
+MF2='Afternoon':'trimf',[12 14 16]
+MF3='Night':'trimf',[16 20 23]
+
+[Input2]
+Name='Ambient Light Level'
+Range=[0 1000]
+NumMFs=3
+MF1='Dark':'trimf',[0 0 300]
+MF2='Medium':'trimf',[250 500 700]
+MF3='Bright':'trimf',[600 1000 1000]
+
+[Input3]
+Name='Motion Detection'
+Range=[0 1]
+NumMFs=3
+MF1='No motion':'trapmf',[0 0 0.2 0.4]
+MF2='Some motion':'trimf',[0.2 0.5 0.8]
+MF3='Motion Detected':'trapmf',[0.6 0.8 1 1]
+
+[Input4]
+Name='User Presence'
+Range=[0 10]
+NumMFs=3
+MF1='Empty':'trimf',[0 0 2]
+MF2='Few people':'trimf',[1 3 6]
+MF3='Crowded':'trimf',[5 10 10]
+
+[Output1]
+Name='Light'
+Range=[0 100]
+NumMFs=3
+MF1='OFF':'trapmf',[0 0 10 30]
+MF2='DIM':'trimf',[10 50 90]
+MF3='ON':'trapmf',[70 100 100 100]
+
+[Rules]
+1 3 1 1, 1 (1) : 1
+2 2 2 2, 2 (1) : 1
+3 1 3 3, 3 (1) : 1
